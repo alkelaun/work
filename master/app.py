@@ -45,9 +45,9 @@ def set_network_settings():
     # Find the container by name
     container = client.containers.get(container_name)
     # Set latency between containers
-    container.exec_run(f'tc qdisc add dev eth0 root netem delay {latency}ms')
+    container.exec_run(f'tc qdisc add dev sim_network root netem delay {latency}ms')
     # Set bandwidth between containers
-    container.exec_run(f'tc qdisc add dev eth0 root tbf rate {bandwidth}mbit burst 32kbit latency 400ms')    
+    container.exec_run(f'tc qdisc add dev sim_network root tbf rate {bandwidth}mbit burst 32kbit latency 400ms')    
     return redirect(url_for('index'))
 
 @app.route('/destroy_container/<container_id>')

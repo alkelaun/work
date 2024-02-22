@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Container File Listing</title>
+</head>
+<body>
+    <h1>Child Container File Listing</h1>
+    <ul>
+        {% for file in files %}
+        <li>{{ file }}</li>
+        {% endfor %}
+    </ul>
+    <h2> Performance Metrics </h2>
+    <div id="response">Response</div>
+    <div id="roundTripTime">RTT</div>
+
+    <script>
+        function sendRequest() {
+            // Start the timer
+            var startTime = new Date().getTime();
+
+            // Send a POST request to the endpoint
+            fetch('http://127.0.0.1:5000/echo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: 'Hello, this is a test message'
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Calculate the round-trip time
+                var endTime = new Date().getTime();
+                var roundTripTime = endTime - startTime;
+
+                // Update the DOM with the response and round-trip time
+                document.getElementById('response').textContent = 'Response: ' + data;
+                document.getElementById('roundTripTime').textContent = 'Round-trip time: ' + roundTripTime + ' milliseconds';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        
+        setInterval(sendRequest, 5000);
+    </script>
+</body>
+</html>

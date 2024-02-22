@@ -1,0 +1,31 @@
+version: '3'
+services:
+  master:
+    container_name: master
+    build: ./master
+    ports:
+      - "5000:5000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - data_volume:/data
+    depends_on:
+      - child
+    networks:
+      - sim_network
+  child:
+    container_name: child
+    build: ./child
+    ports:
+      - "5001:5000"
+    image: child
+    volumes:
+      - data_volume:/data
+    networks:
+      - sim_network
+
+volumes:
+  data_volume:
+
+networks:
+  sim_network:
+    driver: bridge
